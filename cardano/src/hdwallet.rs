@@ -272,7 +272,7 @@ impl XPrv {
     /// Create a `XPrv` from the given slice. This slice must be of size `XPRV_SIZE`
     /// otherwise it will return `Err`.
     ///
-    fn from_slice(bytes: &[u8]) -> Result<Self> {
+    pub fn from_slice(bytes: &[u8]) -> Result<Self> {
         if bytes.len() != XPRV_SIZE {
             return Err(Error::InvalidXPrvSize(bytes.len()));
         }

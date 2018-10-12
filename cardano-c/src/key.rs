@@ -1,6 +1,7 @@
 use cardano::hdwallet;
 use std::{
     ffi,
+    slice,
     ptr,
     os::raw::{c_char, c_int},
 };
@@ -41,12 +42,12 @@ pub extern "C" fn cardano_xprv_to_xpub(c_xprv: XPrvPtr) -> XPubPtr {
 }
 
 #[no_mangle]
-pub extern "C" fn cardano_xprv_delete(c_xpub: XPrvPtr) {
+pub extern "C" fn cardano_xprv_delete(c_xprv: XPrvPtr) {
     unsafe { Box::from_raw(c_xprv) };
 }
 
 #[no_mangle]
-pub extern "C" fn cardano_xpub_derive(c_xprv: XPubPtr, index: u32) -> XPubPtr {
+pub extern "C" fn cardano_xpub_derive(c_xpub: XPubPtr, index: u32) -> XPubPtr {
     let xpub = unsafe { c_xpub.as_mut() }.expect("Not a NULL PTR");
     match xpub.derive(hdwallet::DerivationScheme::V2, index) {
         Ok(r) => {
